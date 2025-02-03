@@ -1,6 +1,13 @@
 import { AppDispatche, RootState } from "../store/store";
 import { useSelector, useDispatch } from "react-redux";
-import { Box, Button, Grid2, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid2,
+  LinearProgress,
+  Paper,
+  Typography,
+} from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Habit, toggleHabit } from "../store/habit-slice";
@@ -21,8 +28,11 @@ const HabitLists = () => {
       if (habit.completeDates.includes(dataString)) {
         streak++;
         currentDate.setDate(currentDate.getDate() - 1);
+      } else {
+        break;
       }
     }
+    return streak;
   };
 
   return (
@@ -73,6 +83,16 @@ const HabitLists = () => {
                 </Box>
               </Grid2>
             </Grid2>
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="body2">
+                Current Streak: {getStreak(habit)} days
+              </Typography>
+              <LinearProgress
+                variant="determinate"
+                value={(getStreak(habit) / 30) * 100}
+                sx={{ mt: 1 }}
+              />
+            </Box>
           </Paper>
         );
       })}
